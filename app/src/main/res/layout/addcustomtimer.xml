@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/new_timer_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:background="@android:color/darker_gray"
+    android:orientation="horizontal">
+
+    <EditText
+        android:id="@+id/time_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:focusable="true"
+        android:hint="Timer Name"
+        android:textColorHint="@android:color/background_light" />
+
+    <EditText
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="275dp"
+        android:hint="Enter the time"
+        android:inputType="time"
+        android:textColorHint="@android:color/background_light" />
+
+    <Button
+        android:id="@+id/save_timer"
+        android:onClick="saveData"
+        android:background="@drawable/savebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>

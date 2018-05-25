@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "671500769454",
+    "firebase_url": "https://food-timer.firebaseio.com",
+    "project_id": "food-timer",
+    "storage_bucket": "food-timer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671500769454:android:d9c9780109a7b0dd",
+        "android_client_info": {
+          "package_name": "com.app.gahlot.foodtimer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "671500769454-oge0grh6cpmur04vta5vecf9dupkmd68.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDtXuOgdPGu4z_VAQrParUiv5YhAU6pnE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
