@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.app.gahlot.foodtimer.AddedTimer;
 import com.app.gahlot.foodtimer.R;
+import com.bumptech.glide.request.target.SquaringDrawable;
 
 import java.util.List;
 
@@ -69,14 +70,24 @@ public class BackGroundTask extends AsyncTask<String,Timers,String> {
             }
             return "Get_info";
         }
+        else if (method.equals("Delete_info"))
+        {
+            String id = params[1];
+            int correctid = Integer.parseInt(id);
+            correctid=correctid+1;
+            String databaseID = Integer.toString(correctid);
+            //System.out.println(correctid);
+            SQLiteDatabase db = dbOperations.getWritableDatabase();
+            dbOperations.deleteInformation(db,databaseID);
+            customTimerAdapter = new CustomTimerAdapter(ctx, R.layout.row);
+            return "Delete_info";
+        }
         return null;
     }
 
     @Override
     protected void onProgressUpdate(Timers... values) {
         customTimerAdapter.add(values[0]);
-
-
     }
 
     @Override
@@ -85,16 +96,16 @@ public class BackGroundTask extends AsyncTask<String,Timers,String> {
         if (result.equals("Get_info"))
         {
             listView.setAdapter(customTimerAdapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                         String name = adapterView.getItemAtPosition(position).toString();
                         System.out.println(name.toString());
 
                 }
-            });
+            }); */
 
-        } else {
+        } else if (result.equals("Delete_info")){
             Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
         }
     }

@@ -54,19 +54,11 @@ public class DbOperations extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void deleteInformation(SQLiteDatabase DB, String n)
+    public void deleteInformation(SQLiteDatabase DB, String id)
     {
-        String selection = AddedTimer.TimerEntry.DName + " = " + n;
+        String selection = "rowid " + "= " + id;
         DB.delete(AddedTimer.TimerEntry.DtableName,selection,null);
-    }
-
-    public Cursor getItemID(String name)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " + AddedTimer.TimerEntry.DName + " FROM " + AddedTimer.TimerEntry.DtableName + " WHERE " + AddedTimer.TimerEntry.DName
-                + " = " + name;
-        Cursor data = db.rawQuery(query, null);
-        return data;
+        DB.execSQL("VACUUM;");
     }
 
     @Override

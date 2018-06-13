@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import Utils.BackGroundTask;
 
@@ -20,8 +21,7 @@ public class saveTimer extends AppCompatActivity {
 
     EditText e_name, e_time;
     String name, time;
-    Button savebutton;
-
+    ImageButton savebutton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,8 +35,8 @@ public class saveTimer extends AppCompatActivity {
     {
         name = e_name.getText().toString();
         time = e_time.getText().toString();
-        final AlphaAnimation buttonClick = new AlphaAnimation(2F, 0.8F);
-        savebutton = (Button)findViewById(R.id.save_timer);
+        final AlphaAnimation buttonClick = new AlphaAnimation(1.0F, 0.4F);
+        savebutton = (ImageButton) findViewById(R.id.save_timer);
 
         BackGroundTask backGroundTask = new BackGroundTask(this);
         backGroundTask.execute("Add_info",name,time);

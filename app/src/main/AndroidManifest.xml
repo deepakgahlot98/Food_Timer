@@ -25,10 +25,9 @@
             </intent-filter>
         </activity>
 
-        <!--- Dialog box for creating a new custom timer  -->
-
         <!--- Main Activity -->
-        <activity android:name="com.app.gahlot.foodtimer.MainActivity">
+        <activity android:name="com.app.gahlot.foodtimer.MainActivity"
+                  android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -39,6 +38,8 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+
+        <!--- Dialog box for creating a new custom timer  -->
 
         <activity android:name="com.app.gahlot.foodtimer.saveTimer">
             <intent-filter>

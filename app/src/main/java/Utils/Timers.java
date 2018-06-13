@@ -19,6 +19,10 @@ public class Timers {
         this.setListtime(time);
     }
 
+    public Timers() {
+
+    }
+
     public String getListname() {
         return Listname;
     }

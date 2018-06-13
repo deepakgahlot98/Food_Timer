@@ -20,6 +20,7 @@ import com.google.android.gms.ads.MobileAds;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+import com.google.android.gms.dynamic.IFragmentWrapper;
 
 public class MainActivity extends Activity {
 
@@ -32,6 +33,7 @@ public class MainActivity extends Activity {
     Button showCustomTimer;
     CountDownTimer countDownTimer;
     private AdView mAdView;
+    private static final int SECOND_ACTIVITY_REQUEST_CODE = 1;
 
     public void updateTimer(int secondsLeft)
     {
@@ -88,7 +90,9 @@ public class MainActivity extends Activity {
     }
 
     public void showTimer(View view) {
-       startActivity(new Intent(this,displayTimer.class));
+
+        Intent intent = new Intent(this,displayTimer.class);
+        startActivityForResult(intent,SECOND_ACTIVITY_REQUEST_CODE);
     }
 
 
@@ -103,8 +107,7 @@ public class MainActivity extends Activity {
         showCustomTimer = (Button) findViewById(R.id.Saved_timer);
         addCustomtimer = (Button) findViewById(R.id.add_timer);
 
-
-        seekbar.setMax(600);
+        seekbar.setMax(1200);
         seekbar.setProgress(30);
 
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -125,12 +128,26 @@ public class MainActivity extends Activity {
 
             }
         });
-
         MobileAds.initialize(this,"ca-app-pub-6234849788191173~9884819105");
-        //
-
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SECOND_ACTIVITY_REQUEST_CODE){
+            if (resultCode == RESULT_OK) {
+                int time = Integer.parseInt(data.getExtras().getString("TIME_DATA"));
+
+                seekbar.setProgress(time * 60);
+                updateTimer(time * 60);
+            }
+            else{
+                System.out.println("Not Ok");
+            }
+        }
     }
 }
