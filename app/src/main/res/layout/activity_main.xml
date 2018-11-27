@@ -32,7 +32,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="400dp"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-6234849788191173/3028848280">
+        ads:adUnitId="ca-app-pub-9932656312973519/6768671330">
     </com.google.android.gms.ads.AdView>
 
     <Button

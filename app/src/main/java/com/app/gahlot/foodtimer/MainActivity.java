@@ -1,26 +1,29 @@
 package com.app.gahlot.foodtimer;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
-import com.google.android.gms.dynamic.IFragmentWrapper;
+
+import static com.app.gahlot.foodtimer.FoodTimer.CHANNEL_1_ID;
+import static com.app.gahlot.foodtimer.FoodTimer.CHANNEL_2_ID;
 
 public class MainActivity extends Activity {
 
@@ -33,6 +36,8 @@ public class MainActivity extends Activity {
     Button showCustomTimer;
     CountDownTimer countDownTimer;
     private AdView mAdView;
+    public static String timeremaining;
+    private NotificationManagerCompat notificationManagerCompat;
     private static final int SECOND_ACTIVITY_REQUEST_CODE = 1;
 
     public void updateTimer(int secondsLeft)
@@ -40,12 +45,11 @@ public class MainActivity extends Activity {
         int minutes = (int) secondsLeft / 60;
         int seconds = (int) secondsLeft - minutes * 60;
 
-        String timeremaining = String.format("%02d:%02d",minutes,seconds);
-
+        timeremaining = String.format("%02d:%02d",minutes,seconds);
         timertext.setText(timeremaining);
     }
 
-    public void controlTimer(View view) {
+    public void controlTimer(final View view) {
         if (counterIsActive == false) {
             counterIsActive = true;
             seekbar.setEnabled(false);
@@ -60,7 +64,7 @@ public class MainActivity extends Activity {
                     animation = (ImageView) findViewById(R.id.imageView2);
                     GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(animation);
                     Glide.with(getApplicationContext()).load(R.raw.giphy).into(imageViewTarget);
-
+                    sendChannel1(view);
                 }
 
                 @Override
@@ -71,6 +75,7 @@ public class MainActivity extends Activity {
                     seekbar.setEnabled(true);
                     controllerButton.setText("Go");
                     Glide.with(getApplicationContext()).onStop();
+                    sendChannel2(view);
 
                 }
             }.start();
@@ -100,13 +105,12 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         seekbar = (SeekBar) findViewById(R.id.timerSeekBar);
         timertext = (TextView) findViewById(R.id.timeTextView);
         controllerButton = (Button) findViewById(R.id.controllerButton);
         showCustomTimer = (Button) findViewById(R.id.Saved_timer);
         addCustomtimer = (Button) findViewById(R.id.add_timer);
-
+        notificationManagerCompat = NotificationManagerCompat.from(this);
         seekbar.setMax(1200);
         seekbar.setProgress(30);
 
@@ -128,10 +132,11 @@ public class MainActivity extends Activity {
 
             }
         });
-        MobileAds.initialize(this,"ca-app-pub-6234849788191173~9884819105");
+        MobileAds.initialize(this,"ca-app-pub-9932656312973519~2969150830");
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
     }
 
 
@@ -150,4 +155,37 @@ public class MainActivity extends Activity {
             }
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+    public void sendChannel1(View v) {
+        Intent activityIntent = new Intent(this,MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                0,activityIntent,0);
+
+        Notification notification = new NotificationCompat.Builder(this,CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.timer_icon_notification)
+                .setContentTitle(timeremaining)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                .setContentIntent(pendingIntent)
+                .build();
+
+        notificationManagerCompat.notify(1,notification);
+    }
+
+    public void sendChannel2(View v) {
+        Notification notification = new NotificationCompat.Builder(this,CHANNEL_2_ID)
+                .setSmallIcon(R.drawable.timer_icon_notification)
+                .setContentTitle(timeremaining)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setCategory(NotificationCompat.CATEGORY_EVENT)
+                .build();
+
+        notificationManagerCompat.notify(1,notification);
+    }
+
 }
